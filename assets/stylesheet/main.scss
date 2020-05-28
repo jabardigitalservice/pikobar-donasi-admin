@@ -1,0 +1,21 @@
+@import "./typography.scss";
+
+.select-none {
+  user-select: none;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.page-transition {
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+  
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.3s ease-in-out;
+  }
+}
