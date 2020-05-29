@@ -2,6 +2,7 @@ import { createBaseMutations } from '../utils/vuex'
 import {
   checkExistingToken,
   loginUsingGoogleAuthProvider,
+  loginUsingEmailAndPassword,
   logout,
 } from '../lib/firebase-app'
 
@@ -34,8 +35,16 @@ export const actions = {
         throw err
       })
   },
-  loginWithGoogle({ commit }) {
-    return loginUsingGoogleAuthProvider()
+  loginUsingEmailAndPassword({ dispatch }, { email, password }) {
+    return dispatch('handleLogin', () =>
+      loginUsingEmailAndPassword(email, password)
+    )
+  },
+  loginWithGoogle({ dispatch }) {
+    return dispatch('handleLogin', () => loginUsingGoogleAuthProvider())
+  },
+  handleLogin({ commit }, loginMethod) {
+    return loginMethod()
       .then((user) => {
         commit('setAuth', user)
         return state.user
