@@ -47,7 +47,7 @@ export default {
     AppSectionTitle: () => import('@/components/AppContent/section-title'),
     DonorVerificationButton: () =>
       import('@/components/DonorVerificationButton'),
-    DetailOfNonCashDonor: () => import('@/components/DetailOfDonor/NonCash'),
+    DetailOfNonCashDonor: () => import('@/components/DonorDetail/NonCash'),
   },
   validate({ params, redirect }) {
     if (typeof params.id === 'string' && params.id.length) {

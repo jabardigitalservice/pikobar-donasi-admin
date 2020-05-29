@@ -6,10 +6,10 @@ import {
 } from '../lib/firebase-pikobar/donor'
 
 export const actions = {
-  getNonCashDonorByDocumentId({ state, getters, commit }, id) {
+  getNonCashDonorByDocumentId(_, id) {
     return getNonCashDonorData(id)
   },
-  getCashDonorByDocumentId({ state, getters, commit }, id) {
+  getCashDonorByDocumentId(_, id) {
     return getCashDonorData(id)
   },
   changeCashDonorVerificationStatus(_, { documentId, newStatus }) {
