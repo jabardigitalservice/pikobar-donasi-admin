@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { createBaseMutations } from '@/utils/vuex'
 
 const defaultState = {
@@ -16,6 +17,10 @@ const getters = {
 
 const mutations = {
   ...createBaseMutations(defaultState),
+  replaceDonorListItem(state, { documentId, item }) {
+    const i = state.listOfDonors.findIndex((x) => x.document_id === documentId)
+    Vue.set(state.listOfDonors, i, item)
+  },
 }
 
 const actions = {

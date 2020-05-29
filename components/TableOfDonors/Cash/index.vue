@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import vuexModule from './vuex-module'
 import { registerModuleOnce } from '@/utils/vuex'
 
@@ -100,9 +100,14 @@ export default {
     this.getListOfDonors()
   },
   methods: {
-    ...mapActions(NAMESPACE, {
-      getListOfDonors: 'getListOfDonors',
-    }),
+    ...mapMutations(NAMESPACE, ['replaceDonorListItem']),
+    ...mapActions(NAMESPACE, ['getListOfDonors']),
+    onReplaceItem(documentId, newItem) {
+      this.replaceDonorListItem({
+        documentId,
+        item: newItem,
+      })
+    },
     onEditItem(item) {
       this.onRowClicked(item)
     },

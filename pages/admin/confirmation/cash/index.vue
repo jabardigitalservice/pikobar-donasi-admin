@@ -13,24 +13,14 @@
             Daftar Donatur
           </AppSectionTitle>
         </v-card-title>
-        <TableOfCashDonors @click:row="onRowClicked" />
+        <TableOfCashDonors ref="tableData" @click:row="onRowClicked" />
       </v-card>
     </section>
-
-    <v-dialog v-model="showDetailDialog" width="600px">
-      <v-card v-if="focusedDonorData">
-        <v-card-title class="flex-wrap">
-          <div>
-            <small style="opacity: 0.5">
-              Detail Donatur
-            </small>
-            <b class="d-block">
-              {{ focusedDonorData.name }}
-            </b>
-          </div>
-        </v-card-title>
-      </v-card>
-    </v-dialog>
+    <DetailOfCashDonorDialog
+      v-model="showDetailDialog"
+      :data="focusedDonorData"
+      @change:verification-status="onVerificationStatusChanged"
+    />
   </div>
 </template>
 
@@ -41,6 +31,8 @@ export default {
     AppContentSubheader: () => import('@/components/AppContent/subheader'),
     AppSectionTitle: () => import('@/components/AppContent/section-title'),
     TableOfCashDonors: () => import('@/components/TableOfDonors/Cash'),
+    DetailOfCashDonorDialog: () =>
+      import('@/components/DetailOfDonor/Cash/dialog'),
   },
   data() {
     return {
@@ -50,11 +42,28 @@ export default {
   },
   methods: {
     onRowClicked(data) {
-      this.focusedDonorData = data
+      this.focusedDonorData = JSON.parse(JSON.stringify(data))
       this.showDetailDialog = true
+    },
+    onVerificationStatusChanged(newStatus) {
+      this.$set(this.focusedDonorData, 'is_verified', newStatus)
+      this.$refs.tableData.onReplaceItem(
+        this.focusedDonorData.document_id,
+        this.focusedDonorData
+      )
     },
   },
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.phone-number {
+  opacity: 0.5;
+  text-decoration: none;
+
+  &:focus,
+  &:hover {
+    text-decoration: underline solid #aaa;
+  }
+}
+</style>

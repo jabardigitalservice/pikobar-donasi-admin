@@ -7,22 +7,16 @@
             <tr>
               <td>Status Verifikasi</td>
               <td>
-                <strong
-                  :class="[data.is_verified ? 'green--text' : 'red--text']"
-                >
-                  {{
-                    data.is_verified ? 'Terverifikasi' : 'Belum  Terverifikasi'
-                  }}
-                </strong>
+                <DonorVerificationStatus :is-verified="data.is_verified" />
               </td>
-            </tr>
-            <tr>
-              <td>Tipe Donatur</td>
-              <td>{{ data.entity_type }}</td>
             </tr>
             <tr>
               <td>Nama</td>
               <td>{{ data.name }}</td>
+            </tr>
+            <tr>
+              <td>Alamat</td>
+              <td>{{ data.address }}</td>
             </tr>
             <tr>
               <td>Email</td>
@@ -51,6 +45,10 @@
               </td>
             </tr>
             <tr>
+              <td>Nominal</td>
+              <td>{{ data.amount }}</td>
+            </tr>
+            <tr>
               <td>
                 <span>
                   Bukti Transfer
@@ -64,7 +62,7 @@
               <td>
                 <PDFViewer
                   :src="data.receipt_url"
-                  style="height: 100%; min-height: 400px;"
+                  style="height: 100%; min-height: 200px;"
                   class="flex-grow-1"
                 />
               </td>
@@ -79,6 +77,7 @@
 <script>
 export default {
   components: {
+    DonorVerificationStatus: () => import('../donor-verification-status'),
     PDFViewer: () => import('@/components/PDFViewer'),
   },
   props: {

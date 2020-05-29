@@ -64,9 +64,7 @@ export default {
     this.getDonorData()
   },
   methods: {
-    ...mapActions('donors', {
-      getNonCashDonorByDocumentId: 'getNonCashDonorByDocumentId',
-    }),
+    ...mapActions('donors', ['getNonCashDonorByDocumentId']),
     getDonorData() {
       this.donorData = null
       return this.getNonCashDonorByDocumentId(this.$route.params.id).then(
