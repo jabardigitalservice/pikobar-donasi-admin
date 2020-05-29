@@ -27,16 +27,11 @@ const mutations = {
 const actions = {
   async getListOfDonors({ state, getters, commit }, options = {}) {
     const mOptions = {
-      refresh: false,
       perPage: state.perPage,
       page: 1,
       ...options,
     }
-    if (
-      !Array.isArray(state.listOfDonors) ||
-      !state.listOfDonors.length ||
-      mOptions.refresh
-    ) {
+    if (!Array.isArray(state.listOfDonors) || !state.listOfDonors.length) {
       const docs = await getListOfCashDonors({
         perPage: mOptions.perPage,
         page: mOptions.page,

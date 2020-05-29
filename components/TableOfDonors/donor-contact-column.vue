@@ -7,7 +7,7 @@
           depressed
           small
           style="text-transform: none;"
-          :href="`mailto:${data.email}`"
+          @click.stop="onEmail"
         >
           <v-icon left color="grey">
             mdi-email-outline
@@ -16,7 +16,7 @@
         </v-btn>
       </v-col>
       <v-col cols="12">
-        <v-btn color="white" depressed small :href="`tel:${data.phone}`">
+        <v-btn color="white" depressed small @click.stop="onCall">
           <v-icon left color="grey">
             mdi-phone-outline
           </v-icon>
@@ -33,6 +33,18 @@ export default {
     data: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  methods: {
+    onEmail() {
+      if (this.data.email) {
+        window.open(`mailto:${this.data.email}`, '_self')
+      }
+    },
+    onCall() {
+      if (this.data.phone) {
+        window.open(`tel:${this.data.phone}`, '_self')
+      }
     },
   },
 }
