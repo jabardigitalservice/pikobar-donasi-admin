@@ -21,8 +21,8 @@
             color="red"
             @click.stop="onOpenReceiptInNewTab(item)"
           >
-            <v-icon size="36">
-              mdi-pdf-box
+            <v-icon size="24">
+              mdi-file
             </v-icon>
           </v-btn>
         </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import vuexModule from './vuex-module'
 import { registerModuleOnce } from '@/utils/vuex'
 
@@ -60,11 +60,6 @@ export default {
           sortable: false,
         },
         {
-          text: 'Tipe Donatur',
-          value: 'entity_type',
-          sortable: false,
-        },
-        {
           text: 'Nama Donatur',
           value: 'name',
           sortable: false,
@@ -75,8 +70,8 @@ export default {
           sortable: false,
         },
         {
-          text: 'No. Telp',
-          value: 'phone_number',
+          text: 'Nominal',
+          value: 'amount',
           sortable: false,
         },
         {
@@ -101,7 +96,13 @@ export default {
   beforeCreate() {
     registerModuleOnce(this.$store, NAMESPACE, vuexModule)
   },
+  beforeMount() {
+    this.getListOfDonors()
+  },
   methods: {
+    ...mapActions(NAMESPACE, {
+      getListOfDonors: 'getListOfDonors',
+    }),
     onEditItem(item) {
       this.onRowClicked(item)
     },

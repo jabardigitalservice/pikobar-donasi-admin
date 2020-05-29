@@ -9,8 +9,8 @@
       </span>
       <small class="font-weight-thin" style="opacity: 0.5;">
         &nbsp;/
-        <a class="phone-number" :href="`tel:${donorData.phone_number}`">{{
-          donorData.phone_number
+        <a class="phone-number" :href="`tel:${donorData.phone}`">{{
+          donorData.phone
         }}</a>
       </small>
     </AppContentTitle>
@@ -24,6 +24,7 @@
             Data Donatur <span style="opacity: 0.5">(Tunai)</span>
           </AppSectionTitle>
           <DonorVerificationButton
+            type="cash"
             :donor-id="donorData.id"
             :is-verified="donorData.is_verified"
           />
@@ -51,7 +52,7 @@ export default {
         is_verified: false,
         entity_type: 'Personal',
         name: 'Adrian',
-        phone_number: '081214459813',
+        phone: '081214459813',
         email: 'adrian.pdmh@gmail.com',
         receipt_url: '/blank.pdf',
       }

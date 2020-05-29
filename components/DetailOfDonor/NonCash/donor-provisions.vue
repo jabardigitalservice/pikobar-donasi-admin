@@ -27,7 +27,7 @@ export default {
         },
         {
           text: 'Jumlah',
-          value: 'amount',
+          value: 'quantity',
         },
       ],
     }

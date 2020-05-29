@@ -1,8 +1,8 @@
 <template>
   <v-row class="flex-wrap" dense>
-    <v-col cols="auto">
+    <v-col cols="12">
       <v-btn
-        v-if="data.email"
+        color="white"
         depressed
         small
         style="text-transform: none;"
@@ -14,12 +14,12 @@
         {{ data.email }} /
       </v-btn>
     </v-col>
-    <v-col>
-      <v-btn depressed small :href="`tel:${data.phone_number}`">
+    <v-col cols="12">
+      <v-btn color="white" depressed small :href="`tel:${data.phone}`">
         <v-icon left color="green">
           mdi-phone
         </v-icon>
-        {{ data.phone_number }}
+        {{ data.phone }}
       </v-btn>
     </v-col>
   </v-row>

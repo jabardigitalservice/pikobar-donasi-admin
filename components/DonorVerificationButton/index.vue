@@ -17,8 +17,15 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   props: {
+    type: {
+      validator(v) {
+        return ['cash', 'non-cash'].includes(v)
+      },
+      required: true,
+    },
     donorId: {
       type: [String, Number],
       required: true,
@@ -34,15 +41,29 @@ export default {
     }
   },
   methods: {
+    ...mapActions('donors', [
+      'changeNonCashDonationVerificationStatus',
+      'changeCashDonationVerificationStatus',
+    ]),
     async onChangeVerificationStatus() {
       this.isLoading = true
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          this.$emit('change:verification-status', !this.isVerified)
-          resolve()
-          alert('on development')
-        }, 1000)
-      })
+      try {
+        switch (this.type) {
+          case 'cash':
+            await this.changeCashDonationVerificationStatus({
+              documentId: this.donorId,
+              newStatus: !this.isVerified,
+            })
+            break
+          case 'non-cash':
+            await this.changeNonCashDonationVerificationStatus({
+              documentId: this.donorId,
+              newStatus: !this.isVerified,
+            })
+            break
+        }
+        this.$emit('change:verification_status', !this.isVerified)
+      } catch (e) {}
       this.isLoading = false
     },
   },

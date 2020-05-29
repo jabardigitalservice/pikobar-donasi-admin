@@ -13,10 +13,24 @@
       <template #item.contact="{item}">
         <DonorContacts :data="item" />
       </template>
-      <template #item.amount="{item}">
+      <template #item.quantity="{item}">
         <span>
           {{ item.provisions.length }}
         </span>
+      </template>
+      <template #item.statement_letter_url="{item}">
+        <div>
+          <v-btn
+            large
+            icon
+            color="red"
+            @click.stop="onOpenDocumentInNewTab(item)"
+          >
+            <v-icon size="24">
+              mdi-file
+            </v-icon>
+          </v-btn>
+        </div>
       </template>
       <template #item.action="{item}">
         <DonorItemAction
@@ -30,7 +44,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import vuexModule from './vuex-module'
 import { registerModuleOnce } from '@/utils/vuex'
 
@@ -51,11 +65,6 @@ export default {
           sortable: false,
         },
         {
-          text: 'Tipe Donatur',
-          value: 'entity_type',
-          sortable: false,
-        },
-        {
           text: 'Nama Donatur',
           value: 'name',
           sortable: false,
@@ -66,13 +75,13 @@ export default {
           sortable: false,
         },
         {
-          text: 'No. Telp',
-          value: 'phone_number',
+          text: 'Jumlah Item Donasi',
+          value: 'quantity',
           sortable: false,
         },
         {
-          text: 'Jumlah Item Donasi',
-          value: 'amount',
+          text: 'Surat Pengajuan',
+          value: 'statement_letter_url',
           sortable: false,
         },
         {
@@ -92,7 +101,13 @@ export default {
   beforeCreate() {
     registerModuleOnce(this.$store, NAMESPACE, vuexModule)
   },
+  beforeMount() {
+    this.getListOfDonors()
+  },
   methods: {
+    ...mapActions(NAMESPACE, {
+      getListOfDonors: 'getListOfDonors',
+    }),
     onEditItem(item) {
       this.onRowClicked(item)
     },
@@ -101,8 +116,14 @@ export default {
     },
     onRowClicked(item) {
       this.$router.push({
-        path: `/admin/confirmation/non-cash/${item.id}`,
+        path: `/admin/confirmation/non-cash/${item.document_id}`,
       })
+    },
+    onOpenDocumentInNewTab(item) {
+      if (!item || !item.statement_letter_url) {
+        return
+      }
+      window.open(item.statement_letter_url, '_blank')
     },
   },
 }

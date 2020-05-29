@@ -1,40 +1,45 @@
 <template>
   <div>
-    <AppContentTitle :show-back-button="true" @click:back="onClickBack">
-      <AppContentSubheader>
-        Konfirmasi Pengajuan Donasi Non-tunai
-      </AppContentSubheader>
-      <span>
-        {{ donorData.name }}
-      </span>
-      <small class="font-weight-thin" style="opacity: 0.5;">
-        &nbsp;/
-        <a class="phone-number" :href="`tel:${donorData.phone_number}`">{{
-          donorData.phone_number
-        }}</a>
-      </small>
-    </AppContentTitle>
-    <section>
-      <v-card>
-        <v-card-title
-          class="justify-space-between"
-          style="border-bottom: 1px solid #ddd;"
-        >
-          <AppSectionTitle>
-            Data Donatur <span style="opacity: 0.5">(Non-tunai)</span>
-          </AppSectionTitle>
-          <DonorVerificationButton
-            :donor-id="donorData.id"
-            :is-verified="donorData.is_verified"
-          />
-        </v-card-title>
-        <DetailOfNonCashDonor :data="donorData" />
-      </v-card>
-    </section>
+    <template v-if="donorData">
+      <AppContentTitle :show-back-button="true" @click:back="onClickBack">
+        <AppContentSubheader>
+          Konfirmasi Pengajuan Donasi Non-tunai
+        </AppContentSubheader>
+        <span>
+          {{ donorData.name }}
+        </span>
+        <small class="font-weight-thin" style="opacity: 0.5;">
+          &nbsp;/
+          <a class="phone-number" :href="`tel:${donorData.phone}`">{{
+            donorData.phone
+          }}</a>
+        </small>
+      </AppContentTitle>
+      <section>
+        <v-card>
+          <v-card-title
+            class="justify-space-between"
+            style="border-bottom: 1px solid #ddd;"
+          >
+            <AppSectionTitle>
+              Data Donatur <span style="opacity: 0.5">(Non-tunai)</span>
+            </AppSectionTitle>
+            <DonorVerificationButton
+              type="non-cash"
+              :donor-id="donorData.document_id"
+              :is-verified="donorData.is_verified"
+              @change:verification_status="onVerificationStatuChanged"
+            />
+          </v-card-title>
+          <DetailOfNonCashDonor :data="donorData" />
+        </v-card>
+      </section>
+    </template>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   components: {
     AppContentTitle: () => import('@/components/AppContent/title'),
@@ -44,35 +49,37 @@ export default {
       import('@/components/DonorVerificationButton'),
     DetailOfNonCashDonor: () => import('@/components/DetailOfDonor/NonCash'),
   },
-  data() {
-    return {}
+  validate({ params, redirect }) {
+    if (typeof params.id === 'string' && params.id.length) {
+      return true
+    }
+    return redirect('/admin/confirmation/non-cash')
   },
-  computed: {
-    donorData() {
-      return {
-        id: 2901,
-        is_verified: true,
-        entity_type: 'Personal',
-        name: 'Adrian',
-        phone_number: '081214459813',
-        email: 'adrian.pdmh@gmail.com',
-        statement_letter_url: '/blank.pdf',
-        provisions: [
-          {
-            type: 'APD',
-            amount: '10 pcs',
-          },
-          {
-            type: 'Sanitizer',
-            amount: '25 pcs',
-          },
-        ],
-      }
-    },
+  data() {
+    return {
+      donorData: null,
+    }
+  },
+  created() {
+    this.getDonorData()
   },
   methods: {
+    ...mapActions('donors', {
+      getNonCashDonorByDocumentId: 'getNonCashDonorByDocumentId',
+    }),
+    getDonorData() {
+      this.donorData = null
+      return this.getNonCashDonorByDocumentId(this.$route.params.id).then(
+        (data) => {
+          this.donorData = data
+        }
+      )
+    },
     onClickBack() {
       this.$router.back()
+    },
+    onVerificationStatuChanged(newStatus) {
+      this.$set(this.donorData, 'is_verified', newStatus)
     },
   },
 }

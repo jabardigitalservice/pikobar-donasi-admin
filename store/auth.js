@@ -38,6 +38,7 @@ export const actions = {
     )
     return fn()
       .then((user) => {
+        console.log({ user })
         commit('setAuth', user)
         return state.user
       })

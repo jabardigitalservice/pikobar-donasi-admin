@@ -7,29 +7,14 @@
             <tbody>
               <tr>
                 <td>Status Verifikasi</td>
-                <td :class="data.is_verified ? 'green--text' : 'red--text'">
-                  <div class="d-flex align-center">
-                    <v-icon left style="color: currentColor">
-                      {{
-                        data.is_verified
-                          ? 'mdi-check-decagram'
-                          : 'mdi-alert-circle'
-                      }}
-                    </v-icon>
-                    <strong>
-                      {{
-                        data.is_verified
-                          ? 'Terverifikasi'
-                          : 'Belum  Terverifikasi'
-                      }}
-                    </strong>
-                  </div>
+                <td>
+                  <DonorVerificationStatus :is-verified="data.is_verified" />
                 </td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>Tipe Donatur</td>
                 <td>{{ data.entity_type }}</td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>Nama</td>
                 <td>{{ data.name }}</td>
@@ -52,10 +37,10 @@
               <tr>
                 <td>No. Telp</td>
                 <td>
-                  <v-btn depressed :href="`tel:${data.phone_number}`">
+                  <v-btn depressed :href="`tel:${data.phone}`">
                     <v-icon left color="green">mdi-phone</v-icon>
                     <span>
-                      {{ data.phone_number }}
+                      {{ data.phone }}
                     </span>
                   </v-btn>
                 </td>
@@ -101,6 +86,7 @@
 <script>
 export default {
   components: {
+    DonorVerificationStatus: () => import('../donor-verification-status'),
     DonorProvisions: () => import('./donor-provisions.vue'),
     PDFViewer: () => import('@/components/PDFViewer'),
   },

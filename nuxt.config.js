@@ -3,6 +3,7 @@ require('dotenv').config()
 export default {
   env: {
     FIREBASE_CONFIG: process.env.FIREBASE_CONFIG,
+    PIKOBAR_FIREBASE_CONFIG: process.env.PIKOBAR_FIREBASE_CONFIG,
   },
   mode: 'spa',
   /*

@@ -42,10 +42,10 @@
             <tr>
               <td>No. Telp</td>
               <td>
-                <v-btn depressed :href="`tel:${data.phone_number}`">
+                <v-btn depressed :href="`tel:${data.phone}`">
                   <v-icon left color="green">mdi-phone</v-icon>
                   <span>
-                    {{ data.phone_number }}
+                    {{ data.phone }}
                   </span>
                 </v-btn>
               </td>
