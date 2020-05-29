@@ -1,4 +1,9 @@
 import { createBaseMutations } from '../utils/vuex'
+import {
+  checkExistingToken,
+  loginUsingGoogleAuthProvider,
+  logout,
+} from '../lib/firebase-app'
 
 const defaultState = {
   isAuth: false,
@@ -18,11 +23,8 @@ export const mutations = {
 }
 
 export const actions = {
-  async checkExistingToken({ commit }) {
-    const fn = await import('@/lib/firebase').then((m) =>
-      m ? m.checkExistingToken : null
-    )
-    return fn()
+  checkExistingToken({ commit }) {
+    return checkExistingToken()
       .then((user) => {
         commit('setAuth', user)
         return true
@@ -32,13 +34,9 @@ export const actions = {
         throw err
       })
   },
-  async loginWithGoogle({ commit }) {
-    const fn = await import('@/lib/firebase').then((m) =>
-      m ? m.loginUsingGoogleAuthProvider : null
-    )
-    return fn()
+  loginWithGoogle({ commit }) {
+    return loginUsingGoogleAuthProvider()
       .then((user) => {
-        console.log({ user })
         commit('setAuth', user)
         return state.user
       })
@@ -47,9 +45,8 @@ export const actions = {
         throw err
       })
   },
-  async logout({ commit }) {
-    const fn = await import('@/lib/firebase').then((m) => (m ? m.logout : null))
-    return fn().then(() => {
+  logout({ commit }) {
+    return logout().then(() => {
       commit('setAuth', null)
     })
   },
