@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-data-table
-      class="table-of-non-cash-donors"
+      class="table-of-donors"
       :items-per-page="15"
       :headers="tableHeaders"
       :items="tableData"
@@ -21,13 +21,12 @@
       <template #item.statement_letter_url="{item}">
         <div>
           <v-btn
-            large
-            icon
-            color="red"
+            color="white"
+            depressed
             @click.stop="onOpenDocumentInNewTab(item)"
           >
-            <v-icon size="24">
-              mdi-file
+            <v-icon size="24" color="grey">
+              mdi-text-box-outline
             </v-icon>
           </v-btn>
         </div>
@@ -130,9 +129,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-of-non-cash-donors.v-data-table::v-deep {
-  tbody tr {
-    cursor: pointer;
-  }
-}
+@import '../table-of-donors.scss';
 </style>
