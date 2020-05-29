@@ -11,7 +11,7 @@
       <v-btn depressed color="white" v-on="on">
         <UserAvatar size="24" />
         <span
-          class="d-inline-block grey--text text--darken-1"
+          class="d-inline-block blue-grey--text text--darken-1"
           style="margin: 1rem;"
         >
           {{ user.name }}
@@ -20,10 +20,10 @@
     </template>
     <template #default>
       <v-card outlined width="320px">
-        <v-card-text class="text-center">
+        <v-card-text class="text-center blue-grey--text">
           <UserAvatar size="96" />
           <label
-            class="d-block title font-weight-bold grey--text text--darken-3"
+            class="d-block title font-weight-bold text--darken-4"
             style="margin-top: 1rem;"
           >
             {{ user.name }}
@@ -39,14 +39,14 @@
         <v-card-text class="text-center" style="border-top: 1px solid #ddd;">
           <v-btn
             outlined
-            color="grey"
+            color="blue-grey"
             :loading="isLogoutPending"
             @click.stop="onLogout"
           >
-            <v-icon left color="grey darken-2">
+            <v-icon left>
               mdi-logout-variant
             </v-icon>
-            <span class="grey--text text--darken-2 text-capitalize">
+            <span class="text-capitalize">
               Sign Out
             </span>
           </v-btn>

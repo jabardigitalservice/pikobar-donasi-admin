@@ -32,7 +32,7 @@ export default {
     AppSectionTitle: () => import('@/components/AppContent/section-title'),
     TableOfCashDonors: () => import('@/components/TableOfDonors/Cash'),
     DetailOfCashDonorDialog: () =>
-      import('@/components/DetailOfDonor/Cash/dialog'),
+      import('@/components/DonorDetail/Cash/dialog'),
   },
   data() {
     return {

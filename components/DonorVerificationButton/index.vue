@@ -42,30 +42,32 @@ export default {
   },
   methods: {
     ...mapActions('donors', [
-      'changeNonCashDonationVerificationStatus',
-      'changeCashDonationVerificationStatus',
+      'changeCashDonorVerificationStatus',
+      'changeNonCashDonorVerificationStatus',
     ]),
     async onChangeVerificationStatus() {
       this.isLoading = true
       try {
         switch (this.type) {
           case 'cash':
-            await this.changeCashDonationVerificationStatus({
+            await this.changeCashDonorVerificationStatus({
               documentId: this.donorId,
               newStatus: !this.isVerified,
-            }).then(() => {
-              console.log('update data berhasil')
             })
             break
           case 'non-cash':
-            await this.changeNonCashDonationVerificationStatus({
+            await this.changeNonCashDonorVerificationStatus({
               documentId: this.donorId,
               newStatus: !this.isVerified,
+            }).then(() => {
+              console.log('SUKESES')
             })
             break
         }
         this.$emit('change:verification_status', !this.isVerified)
-      } catch (e) {}
+      } catch (e) {
+        console.error(e)
+      }
       this.isLoading = false
     },
   },
