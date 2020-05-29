@@ -53,8 +53,6 @@ export default {
             await this.changeCashDonationVerificationStatus({
               documentId: this.donorId,
               newStatus: !this.isVerified,
-            }).then(() => {
-              console.log('update data berhasil')
             })
             break
           case 'non-cash':

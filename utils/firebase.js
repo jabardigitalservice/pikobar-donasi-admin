@@ -24,7 +24,6 @@ export function initFirebase(namespace, config) {
       } else {
         const app = firebase.initializeApp(cfg, namespace)
         window[namespace] = app
-        console.log(firebase.apps)
       }
     }
     resolve(window[namespace])
