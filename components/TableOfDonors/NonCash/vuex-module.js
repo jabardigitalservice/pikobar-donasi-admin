@@ -26,16 +26,14 @@ const actions = {
       page: 1,
       ...options,
     }
-    if (!Array.isArray(state.listOfDonors) || !state.listOfDonors.length) {
-      const docs = await getListOfNonCashDonors({
-        perPage: mOptions.perPage,
-        page: mOptions.page,
-      })
-      commit('set', {
-        key: 'listOfDonors',
-        value: docs,
-      })
-    }
+    const docs = await getListOfNonCashDonors({
+      perPage: mOptions.perPage,
+      page: mOptions.page,
+    })
+    commit('set', {
+      key: 'listOfDonors',
+      value: docs,
+    })
     return state.listOfDonors
   },
 }
