@@ -1,6 +1,6 @@
 <template>
   <h3 v-once class="text-center">
-    <span class="grey--text text--darken-1">
+    <span class="blue-grey--text text--lighten-1">
       Pikobar
     </span>
     <strong class="green--text">
