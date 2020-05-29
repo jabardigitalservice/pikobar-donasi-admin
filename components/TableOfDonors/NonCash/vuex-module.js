@@ -1,4 +1,5 @@
 import { createBaseMutations } from '@/utils/vuex'
+import { getListOfNonCashDonors } from '@/lib/firebase-pikobar/donor-list'
 
 const defaultState = {
   listOfDonors: [],
@@ -19,22 +20,22 @@ const mutations = {
 }
 
 const actions = {
-  async getListOfDonors({ state, getters, commit }) {
-    const fn = await import('@/lib/firebase-pikobar').then((m) =>
-      m ? m.getNonCashDonationFirestoreRef : null
-    )
-    if (typeof fn === 'function') {
-      const ref = await fn()
-      const docs = await ref
-        .limit(state.perPage)
-        .get()
-        .then((snapshots) => {
-          return snapshots.docs.map((doc) => ({
-            is_verified: false,
-            document_id: doc.id,
-            ...doc.data(),
-          }))
-        })
+  async getListOfDonors({ state, getters, commit }, options = {}) {
+    const mOptions = {
+      refresh: false,
+      perPage: state.perPage,
+      page: 1,
+      ...options,
+    }
+    if (
+      !Array.isArray(state.listOfDonors) ||
+      !state.listOfDonors.length ||
+      mOptions.refresh
+    ) {
+      const docs = await getListOfNonCashDonors({
+        perPage: mOptions.perPage,
+        page: mOptions.page,
+      })
       commit('set', {
         key: 'listOfDonors',
         value: docs,
