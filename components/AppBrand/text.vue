@@ -1,6 +1,9 @@
 <template>
   <h3 v-once class="text-center">
-    <span class="blue-grey--text text--lighten-1">
+    <span
+      v-if="!$store.state.drawer.isMobile"
+      class="blue-grey--text text--lighten-1"
+    >
       Pikobar
     </span>
     <strong class="green--text">
