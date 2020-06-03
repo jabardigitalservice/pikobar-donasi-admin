@@ -2,6 +2,9 @@
   <v-card width="320px" outlined>
     <v-card-title class="justify-center" style="border-bottom: 1px solid #ddd;">
       <AppBrandText class="headline" />
+      <div class="font-weight-thin grey--text text--darken-1 body-2">
+        Halaman Administrator
+      </div>
     </v-card-title>
     <v-card-text style="margin-top: 1.25rem;">
       <ValidationObserver ref="validationObserver" #default="{handleSubmit}">
