@@ -30,6 +30,13 @@
               :error-messages="errors"
             />
           </ValidationProvider>
+          <p
+            v-if="loginErrorMessage"
+            class="red--text"
+            style="margin-bottom: 1rem;"
+          >
+            {{ loginErrorMessage }}
+          </p>
           <v-btn
             :loading="isLoginPending"
             :disabled="isButtonDisabled"
@@ -64,12 +71,14 @@ export default {
   },
   data() {
     return {
-      hasAtLeastOneError: null,
+      hasInvalidField: null,
       payload: {
         email: null,
         password: null,
       },
       isLoginPending: false,
+      isLoginError: false,
+      loginErrorCode: null,
     }
   },
   computed: {
@@ -77,6 +86,19 @@ export default {
       return (
         !this.payload.email || !this.payload.password || this.isLoginPending
       )
+    },
+    loginErrorMessage() {
+      switch (this.loginErrorCode) {
+        case 'auth/invalid-email':
+          return 'Format email tidak valid'
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+          return 'Email/password salah'
+        case 'auth/too-many-requests':
+          return 'Sesi untuk login telah habis. Harap coba beberapa saat lagi.'
+        default:
+          return null
+      }
     },
   },
   mounted() {
@@ -91,15 +113,15 @@ export default {
         '$refs.validationObserver.errors',
         function handler(obj) {
           if (!obj || typeof obj !== 'object') return
-          this.hasAtLeastOneError = Object.keys(obj).some(
-            (key) => obj[key].length
-          )
+          this.hasInvalidField = Object.keys(obj).some((key) => obj[key].length)
         },
         { immediate: true, deep: true }
       )
     },
     onLogin() {
       this.isLoginPending = true
+      this.isLoginError = false
+      this.loginErrorCode = null
       this.loginUsingEmailAndPassword({
         email: this.payload.email,
         password: this.payload.password,
@@ -108,6 +130,11 @@ export default {
           return this.$router.replace({
             path: '/admin',
           })
+        })
+        .catch((e) => {
+          console.log({ e })
+          this.isLoginError = true
+          this.loginErrorCode = e.code
         })
         .finally(() => {
           this.isLoginPending = false
