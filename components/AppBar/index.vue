@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app clipped-left class="white">
+  <v-app-bar app class="white">
     <v-app-bar-nav-icon
       class="blue-grey--text text--lighten-3"
       @click.stop="$emit('toggle:drawer')"
