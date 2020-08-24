@@ -2,10 +2,12 @@
   <div>
     <v-data-table
       class="table-of-donors"
-      :items-per-page="15"
+      v-bind="datatableProps"
       :headers="tableHeaders"
       :items="tableData"
+      :server-items-length="totalCount"
       @click:row="onRowClicked"
+      @update:page="onPageChanged"
     >
       <template #item.is_verified="{item}">
         <DonorVerificationStatus :data="item" />
@@ -39,6 +41,7 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
+import { datatableProps } from '../datatable-mixin'
 import vuexModule from './vuex-module'
 import { registerModuleOnce } from '@/utils/vuex'
 
@@ -52,6 +55,7 @@ export default {
   },
   data() {
     return {
+      datatableProps,
       tableHeaders: [
         {
           text: 'Status',
@@ -90,6 +94,7 @@ export default {
   computed: {
     ...mapState(NAMESPACE, {
       tableData: (state) => state.listOfDonors || [],
+      totalCount: (state) => state.totalCount || 0,
     }),
   },
   beforeCreate() {
@@ -121,6 +126,11 @@ export default {
         return
       }
       window.open(item.receipt_url, '_blank')
+    },
+    onPageChanged(page) {
+      this.getListOfDonors({
+        page,
+      })
     },
   },
 }
