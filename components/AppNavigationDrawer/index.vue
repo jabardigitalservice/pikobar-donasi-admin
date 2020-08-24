@@ -1,9 +1,9 @@
 <template>
   <v-navigation-drawer
     width="300px"
-    clipped
-    stateless
     :value="value"
+    :stateless="!$store.state.drawer.isMobile"
+    :fixed="$store.state.drawer.isMobile"
     app
     @change="onToggled"
   >

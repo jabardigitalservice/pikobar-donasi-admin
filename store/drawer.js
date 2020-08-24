@@ -33,6 +33,7 @@ const menuItemsKPBM = [
 ]
 
 const defaultState = {
+  isMobile: false,
   menuItems: menuItemsKPBM,
 }
 
@@ -42,6 +43,9 @@ export const getters = {}
 
 export const mutations = {
   ...createBaseMutations(defaultState),
+  mobileView(state, v) {
+    state.isMobile = v
+  },
 }
 
 export const actions = {}
