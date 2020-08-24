@@ -6,7 +6,7 @@
     <v-btn
       v-if="showBackButton"
       icon
-      style="position: absolute; right: 100%; margin-right: 1rem;"
+      style="margin-right: 1rem;"
       @click="$emit('click:back')"
     >
       <v-icon>
