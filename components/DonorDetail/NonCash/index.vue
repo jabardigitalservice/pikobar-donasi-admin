@@ -75,6 +75,17 @@
                   />
                 </td>
               </tr>
+              <tr>
+                <td>
+                  Item Donasi Lainnya
+                </td>
+                <td>
+                  <DonorProvisionsOther
+                    :items="data.provisions_other"
+                    style="border-left: 1px solid #ddd;"
+                  />
+                </td>
+              </tr>
             </tbody>
           </template>
         </v-simple-table>
@@ -88,6 +99,7 @@ export default {
   components: {
     DonorVerificationStatus: () => import('../donor-verification-status'),
     DonorProvisions: () => import('./donor-provisions.vue'),
+    DonorProvisionsOther: () => import('./donor-provisions-other.vue'),
     PDFViewer: () => import('@/components/PDFViewer'),
   },
   props: {
