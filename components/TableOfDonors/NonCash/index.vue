@@ -17,7 +17,7 @@
       </template>
       <template #item.quantity="{item}">
         <span>
-          {{ item.provisions.length }}
+          {{ getItemProvisionsCount(item) }}
         </span>
       </template>
       <template #item.statement_letter_url="{item}">
@@ -115,6 +115,12 @@ export default {
     ...mapActions(NAMESPACE, {
       getListOfDonors: 'getListOfDonors',
     }),
+    getItemProvisionsCount(item) {
+      if (!item) return '-'
+      // eslint-disable-next-line camelcase
+      const { provisions = [], provisions_other = [] } = item
+      return provisions.length + provisions_other.length
+    },
     onEditItem(item) {
       this.onRowClicked(item)
     },
