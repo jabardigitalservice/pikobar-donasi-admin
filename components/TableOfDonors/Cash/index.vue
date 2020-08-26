@@ -6,6 +6,7 @@
       :headers="tableHeaders"
       :items="tableData"
       :server-items-length="totalCount"
+      :page="currentPage"
       @click:row="onRowClicked"
       @update:page="onPageChanged"
     >
@@ -95,6 +96,7 @@ export default {
     ...mapState(NAMESPACE, {
       tableData: (state) => state.listOfDonors || [],
       totalCount: (state) => state.totalCount || 0,
+      currentPage: (state) => state.currentPage,
     }),
   },
   beforeCreate() {
@@ -105,7 +107,7 @@ export default {
   },
   methods: {
     ...mapMutations(NAMESPACE, ['replaceDonorListItem']),
-    ...mapActions(NAMESPACE, ['getListOfDonors']),
+    ...mapActions(NAMESPACE, ['getListOfDonors', 'removeDonorData']),
     onReplaceItem(documentId, newItem) {
       this.replaceDonorListItem({
         documentId,
@@ -115,8 +117,21 @@ export default {
     onEditItem(item) {
       this.onRowClicked(item)
     },
-    onDeleteItem() {
-      alert('on development')
+    async onDeleteItem(item) {
+      try {
+        const confirmed = confirm(
+          `Yakin untuk menghapus hapus data donasi dari "${item.name}"?`
+        )
+        if (confirmed) {
+          await this.removeDonorData({ documentId: item.document_id })
+          this.getListOfDonors({
+            page: 1,
+            reset: true,
+          })
+        }
+      } catch (e) {
+        alert('Terjadi Kesalahan')
+      }
     },
     onRowClicked(item) {
       this.$emit('click:row', item)

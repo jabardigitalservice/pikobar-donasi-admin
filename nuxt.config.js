@@ -34,7 +34,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vee-validate.js'],
+  plugins: ['~/plugins/dayjs.js', '~/plugins/vee-validate.js'],
   /*
    ** Nuxt.js dev-modules
    */

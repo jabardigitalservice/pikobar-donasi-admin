@@ -6,6 +6,7 @@
       :headers="tableHeaders"
       :items="tableData"
       :server-items-length="totalCount"
+      :page="currentPage"
       @click:row="onRowClicked"
       @pagination="onPaginationUpdated"
     >
@@ -18,6 +19,11 @@
       <template #item.quantity="{item}">
         <span>
           {{ getItemProvisionsCount(item) }}
+        </span>
+      </template>
+      <template #item.created_at="{ item }">
+        <span>
+          {{ formatDate(item.created_at) }}
         </span>
       </template>
       <template #item.statement_letter_url="{item}">
@@ -49,6 +55,7 @@ import { mapState, mapActions } from 'vuex'
 import { datatableProps } from '../datatable-mixin'
 import vuexModule from './vuex-module'
 import { registerModuleOnce } from '@/utils/vuex'
+import { dayjs } from '@/plugins/dayjs'
 
 const NAMESPACE = 'non_cash_donors_table'
 export default {
@@ -62,6 +69,11 @@ export default {
     return {
       datatableProps,
       tableHeaders: [
+        {
+          text: 'Tanggal',
+          value: 'created_at',
+          sortable: false,
+        },
         {
           text: 'Status',
           value: 'is_verified',
@@ -114,7 +126,11 @@ export default {
   methods: {
     ...mapActions(NAMESPACE, {
       getListOfDonors: 'getListOfDonors',
+      removeDonorData: 'removeDonorData',
     }),
+    formatDate(itemCreatedAt) {
+      return dayjs(itemCreatedAt.seconds * 1000).format('DD-MMMM-YYYY, dddd')
+    },
     getItemProvisionsCount(item) {
       if (!item) return '-'
       // eslint-disable-next-line camelcase
@@ -124,8 +140,21 @@ export default {
     onEditItem(item) {
       this.onRowClicked(item)
     },
-    onDeleteItem() {
-      alert('on development')
+    async onDeleteItem(item) {
+      try {
+        const confirmed = confirm(
+          `Yakin untuk menghapus hapus data donasi dari "${item.name}"?`
+        )
+        if (confirmed) {
+          await this.removeDonorData({ documentId: item.document_id })
+          this.getListOfDonors({
+            page: 1,
+            reset: true,
+          })
+        }
+      } catch (e) {
+        alert('Terjadi Kesalahan')
+      }
     },
     onRowClicked(item) {
       this.$router.push({

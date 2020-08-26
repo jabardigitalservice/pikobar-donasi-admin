@@ -24,19 +24,28 @@ const mutations = {
 }
 
 const actions = {
-  async getListOfDonors({ state, getters, commit }, { page = 1 } = {}) {
+  async removeDonorData(_, { documentId }) {
+    const firestore = await getFirestoreModule()
+    return firestore
+      .doc(`${FIRESTORE_COLLECTION.DONATION_NON_CASH}/${documentId}`)
+      .delete()
+  },
+  async getListOfDonors(
+    { state, getters, commit },
+    { page = 1, reset = false } = {}
+  ) {
     if (page !== state.currentPage) {
       const firestore = await getFirestoreModule()
       let query = await firestore
         .collection(FIRESTORE_COLLECTION.DONATION_NON_CASH)
-        .orderBy('created_at', 'desc')
+        .orderBy('created_at.seconds', 'desc')
 
-      if (page < state.currentPage && state.firstSnapshot) {
+      if (reset || !state.firstSnapshot || !state.lastSnapshot) {
+        query = query.limit(state.perPage)
+      } else if (page < state.currentPage && state.firstSnapshot) {
         query = query.endBefore(state.firstSnapshot).limitToLast(state.perPage)
       } else if (page > state.currentPage && state.lastSnapshot) {
         query = query.startAfter(state.lastSnapshot).limit(state.perPage)
-      } else {
-        query = query.limit(state.perPage)
       }
 
       const [first, last, list] = await query.get().then((snapshots) => {
