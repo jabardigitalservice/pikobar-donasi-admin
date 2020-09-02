@@ -26,15 +26,25 @@ const mutations = {
 const actions = {
   async removeDonorData(_, { documentId }) {
     const firestore = await getFirestoreModule()
-    return firestore
-      .doc(`${FIRESTORE_COLLECTION.DONATION_NON_CASH}/${documentId}`)
-      .delete()
+    await firestore.runTransaction(async (t) => {
+      const counter = firestore.doc(
+        `counters/${FIRESTORE_COLLECTION.DONATION_NON_CASH}`
+      )
+      const count = await t.get(counter).then((doc) => doc.get('count'))
+      const doc = firestore.doc(
+        `${FIRESTORE_COLLECTION.DONATION_NON_CASH}/${documentId}`
+      )
+      await t.delete(doc)
+      await t.update(counter, {
+        count: count - 1,
+      })
+    })
   },
   async getListOfDonors(
     { state, getters, commit },
     { page = 1, reset = false } = {}
   ) {
-    if (page !== state.currentPage) {
+    if (page !== state.currentPage || reset) {
       const firestore = await getFirestoreModule()
       let query = await firestore
         .collection(FIRESTORE_COLLECTION.DONATION_NON_CASH)
