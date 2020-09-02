@@ -31,7 +31,7 @@ const mutations = {
 const actions = {
   async removeDonorData(_, { documentId }) {
     const firestore = await getFirestoreModule()
-    return firestore.runTransaction(async (t) => {
+    await firestore.runTransaction(async (t) => {
       const counter = firestore.doc(
         `counters/${FIRESTORE_COLLECTION.DONATION_CASH}`
       )

@@ -26,7 +26,7 @@ const mutations = {
 const actions = {
   async removeDonorData(_, { documentId }) {
     const firestore = await getFirestoreModule()
-    return firestore.runTransaction(async (t) => {
+    await firestore.runTransaction(async (t) => {
       const counter = firestore.doc(
         `counters/${FIRESTORE_COLLECTION.DONATION_NON_CASH}`
       )
@@ -44,7 +44,7 @@ const actions = {
     { state, getters, commit },
     { page = 1, reset = false } = {}
   ) {
-    if (page !== state.currentPage) {
+    if (page !== state.currentPage || reset) {
       const firestore = await getFirestoreModule()
       let query = await firestore
         .collection(FIRESTORE_COLLECTION.DONATION_NON_CASH)
