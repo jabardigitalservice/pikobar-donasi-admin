@@ -59,6 +59,11 @@ export default {
       datatableProps,
       tableHeaders: [
         {
+          text: 'Tanggal',
+          value: 'created_at',
+          sortable: false,
+        },
+        {
           text: 'Status',
           value: 'is_verified',
           sortable: false,
