@@ -16,6 +16,11 @@
       <template #item.contact="{item}">
         <DonorContacts :data="item" />
       </template>
+      <template #item.created_at="{ item }">
+        <span>
+          {{ formatDate(item.created_at) }}
+        </span>
+      </template>
       <template #item.receipt="{item}">
         <div>
           <v-btn
@@ -45,6 +50,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 import { datatableProps } from '../datatable-mixin'
 import vuexModule from './vuex-module'
 import { registerModuleOnce } from '@/utils/vuex'
+import { dayjs } from '@/plugins/dayjs'
 
 const NAMESPACE = 'cash_donors_table'
 export default {
@@ -118,6 +124,9 @@ export default {
         documentId,
         item: newItem,
       })
+    },
+    formatDate(itemCreatedAt) {
+      return dayjs(itemCreatedAt.seconds * 1000).format('DD-MMMM-YYYY, dddd')
     },
     onEditItem(item) {
       this.onRowClicked(item)
