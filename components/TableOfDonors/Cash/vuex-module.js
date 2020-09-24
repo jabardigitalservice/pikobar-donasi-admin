@@ -43,7 +43,7 @@ const actions = {
       const firestore = await getFirestoreModule()
       let query = await firestore
         .collection(FIRESTORE_COLLECTION.DONATION_CASH)
-        .orderBy('created_at.seconds', 'desc')
+        .orderBy('name', 'asc')
 
       if (reset || !state.firstSnapshot || !state.lastSnapshot) {
         query = query.limit(state.perPage)
