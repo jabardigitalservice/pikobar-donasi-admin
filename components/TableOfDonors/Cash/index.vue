@@ -126,11 +126,7 @@ export default {
       })
     },
     formatDate(itemCreatedAt) {
-      if (
-        itemCreatedAt !== undefined &&
-        itemCreatedAt !== null &&
-        itemCreatedAt.toString().trim() !== ''
-      ) {
+      if (itemCreatedAt) {
         return dayjs(itemCreatedAt.seconds * 1000).format('DD-MMMM-YYYY, dddd')
       }
     },
