@@ -126,7 +126,9 @@ export default {
       })
     },
     formatDate(itemCreatedAt) {
-      return dayjs(itemCreatedAt.seconds * 1000).format('DD-MMMM-YYYY, dddd')
+      if (itemCreatedAt !== null) {
+        return dayjs(itemCreatedAt.seconds * 1000).format('DD-MMMM-YYYY, dddd')
+      }
     },
     onEditItem(item) {
       this.onRowClicked(item)
