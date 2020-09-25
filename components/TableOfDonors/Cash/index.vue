@@ -16,7 +16,7 @@
       <template #item.contact="{item}">
         <DonorContacts :data="item" />
       </template>
-      <template #item.created_at="{ item }">
+      <template #item.created_at="{item}">
         <span>
           {{ formatDate(item.created_at) }}
         </span>
@@ -126,7 +126,7 @@ export default {
       })
     },
     formatDate(itemCreatedAt) {
-      if (itemCreatedAt !== null) {
+      if (itemCreatedAt) {
         return dayjs(itemCreatedAt.seconds * 1000).format('DD-MMMM-YYYY, dddd')
       }
     },
