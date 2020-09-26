@@ -28,7 +28,7 @@
             depressed
             @click.stop="onOpenReceiptInNewTab(item)"
           >
-            <v-icon size="24" color="grey">
+            <v-icon size="20" color="grey">
               mdi-text-box-outline
             </v-icon>
           </v-btn>
@@ -65,19 +65,14 @@ export default {
       datatableProps,
       tableHeaders: [
         {
-          text: 'Tanggal',
+          text: 'Tgl Pendaftaran',
           value: 'created_at',
           sortable: false,
         },
         {
-          text: 'Status',
-          value: 'is_verified',
-          sortable: false,
-        },
-        {
-          text: 'Nama Donatur',
+          text: 'Nama',
           value: 'name',
-          sortable: false,
+          sortable: true,
         },
         {
           text: 'Kontak',
@@ -85,9 +80,14 @@ export default {
           sortable: false,
         },
         {
+          text: 'Perwakilan',
+          value: 'representative',
+          sortable: true,
+        },
+        {
           text: 'Nominal',
           value: 'amount',
-          sortable: false,
+          sortable: true,
         },
         {
           text: 'Bukti Transfer',
@@ -95,10 +95,9 @@ export default {
           sortable: false,
         },
         {
-          text: 'Aksi',
-          value: 'action',
+          text: 'Status',
+          value: 'is_verified',
           sortable: false,
-          width: 0,
         },
       ],
     }

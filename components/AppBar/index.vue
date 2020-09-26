@@ -3,7 +3,9 @@
     <v-app-bar-nav-icon
       class="blue-grey--text text--lighten-3"
       @click.stop="$emit('toggle:drawer')"
-    />
+    >
+      <v-icon>mdi-apps</v-icon>
+    </v-app-bar-nav-icon>
     <AppBrandText class="headline" />
     <v-spacer />
     <UserContextMenu />

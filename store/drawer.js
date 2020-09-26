@@ -7,28 +7,47 @@ const menuItemsKPBM = [
   //   to: '/admin',
   //   exact: true,
   // },
+  // {
+  //  title: 'Donasi Non-tunai',
+  //  expanded: true,
+  //  children: [
+  //    {
+  //      title: 'Konfirmasi Pengajuan',
+  //      icon: 'mdi-package-variant',
+  //      to: '/admin/confirmation/non-cash',
+  //    },
+  //  ],
+  // },
   {
-    title: 'Konfirmasi Pengajuan',
-    expanded: true,
-    children: [
-      {
-        title: 'Donasi Non-tunai',
-        icon: 'mdi-package-variant',
-        to: '/admin/confirmation/non-cash',
-      },
-    ],
+    title: 'Calon Donatur',
+    noAction: false,
+    exact: true,
+    icon: 'mdi-account-multiple-outline',
+    to: '/admin/potential-donors',
   },
   {
-    title: 'Konfirmasi Status',
+    title: 'Logo Donatur Organisasi',
     noAction: true,
-    expanded: true,
-    children: [
-      {
-        title: 'Donasi Tunai',
-        icon: 'mdi-cash-100',
-        to: '/admin/confirmation/cash',
-      },
-    ],
+    icon: 'mdi-file-image',
+    to: '/admin/confirmation/b',
+  },
+  {
+    title: 'Statistik Donasi',
+    noAction: true,
+    icon: 'mdi-chart-bar',
+    to: '/admin/confirmation/d',
+  },
+  {
+    title: 'Laporan Donasi',
+    noAction: true,
+    icon: 'mdi-file-document',
+    to: '/admin/confirmation/v',
+  },
+  {
+    title: 'Tracking Donasi',
+    noAction: false,
+    icon: 'mdi-map-marker-radius',
+    to: '/admin/confirmation/f',
   },
 ]
 

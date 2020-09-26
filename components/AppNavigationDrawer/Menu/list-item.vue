@@ -42,9 +42,6 @@ export default {
     },
   },
   computed: {
-    isGroup() {
-      return this.item && Array.isArray(this.item.children)
-    },
     hasLink() {
       return typeof this.item.to === 'string' && this.item.to.length
     },
@@ -54,7 +51,7 @@ export default {
     groupProps() {
       return {
         subGroup: !this.isRoot,
-        activeClass: 'white grey--text text--darken-3',
+        activeClass: 'grey--text',
       }
     },
     itemProps() {
@@ -63,7 +60,7 @@ export default {
         link: this.hasExternalLink,
         to: this.item.to,
         exact: this.item.exact,
-        activeClass: 'white green--text',
+        activeClass: 'green--text',
       }
     },
   },
